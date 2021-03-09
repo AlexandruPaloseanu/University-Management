@@ -571,7 +571,7 @@ public class Repository {
             Statement statement1 = con.createStatement();
             ResultSet rs1 = statement1.executeQuery("SELECT * FROM COURSES_TIMETABLE WHERE COURSE_ID = " + courseID);
 
-            if (rs1.next()) courseScheduleList.add(
+            while (rs1.next()) courseScheduleList.add(
                     new CourseSchedule(
                             courseList.get(i),
                             rs1.getString(2),
