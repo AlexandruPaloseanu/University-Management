@@ -361,7 +361,7 @@ public class Repository {
 
             int professorID = 0;
 
-            if (rs2.next()) professorID = rs2.getInt(10);
+            if (rs2.next()) professorID = rs2.getInt(1);
 
             Statement statement3 = con.createStatement();
             statement3.execute("DELETE FROM TASKS WHERE PROFESSOR_ID = " + professorID);
