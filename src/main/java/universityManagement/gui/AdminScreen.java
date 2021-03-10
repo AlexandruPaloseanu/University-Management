@@ -28,7 +28,7 @@ public class AdminScreen extends JFrame {
     private JButton buttonCreateNewAccounts = new JButton("<html><div style=\"text-align:center\">Create<br>Accounts</div></html>");
     private JButton buttonDeleteAccounts = new JButton("<html><div style=\"text-align:center\">Delete<br>Accounts</div></html>");
     //private JButton buttonModifyAccounts = new JButton("<html><div style=\"text-align:center\">Modify<br>Accounts</div></html>");
-    private JButton buttonChangeProfessorCourse = new JButton("<html><div style=\"text-align:center\">Change a professor's<br>course</div></html>");
+    private JButton buttonChangeProfessorCourse = new JButton("<html><div style=\"text-align:center\">Change a course's<br>professor</div></html>");
 
     // LOG OUT FUNCTION
 
