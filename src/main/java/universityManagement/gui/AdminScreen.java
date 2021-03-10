@@ -1,7 +1,6 @@
 package universityManagement.gui;
 
 import universityManagement.baseClasses.*;
-import universityManagement.repository.Repository;
 import universityManagement.services.Services;
 
 import javax.swing.*;
