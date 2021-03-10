@@ -304,8 +304,7 @@ public class ProfessorScreen extends JFrame {
 
         String selectedStudentName = (String) comboBoxStudents.getSelectedItem();
         String[] selectedStudentArray = selectedStudentName.split(", ");
-        int studentNR = Integer.parseInt(selectedStudentArray[0]) - 1;
-        String studentName = selectedStudentArray[1];
+        int studentNR = (Integer.parseInt(selectedStudentArray[0])) - 1;
 
         selectedStudent = studentList.get(studentNR);
 
@@ -1303,6 +1302,9 @@ public class ProfessorScreen extends JFrame {
                 rightPanel.revalidate();
                 rightPanel.repaint();
 
+                selectedCourse = null;
+                selectedStudent = null;
+
                 courseList = services.getProfessorCourseList(professorID);
 
                 if (courseList.size() > 0) {
@@ -1322,6 +1324,7 @@ public class ProfessorScreen extends JFrame {
                     initializeComboBoxGradeCourses();
                     rightPanel.add(comboBoxGradeCourses);
                     comboBoxGradeCourses.setBounds(350, 100, 300, 50);
+                    comboBoxGradeCourses.setSelectedIndex(0);
 
 
                     getSelectedCourse();
@@ -1334,6 +1337,7 @@ public class ProfessorScreen extends JFrame {
                     initializeComboBoxStudents();
                     rightPanel.add(comboBoxStudents);
                     comboBoxStudents.setBounds(350, 200, 300, 50);
+                    comboBoxStudents.setSelectedIndex(0);
 
 
                     getSelectedStudent();
@@ -1357,6 +1361,7 @@ public class ProfessorScreen extends JFrame {
                     initializeComboBoxExamDates();
                     rightPanel.add(comboBoxExamDates);
                     comboBoxExamDates.setBounds(450, 350, 200, 50);
+                    comboBoxExamDates.setSelectedIndex(0);
 
                     selectExamDate();
 
@@ -1404,6 +1409,7 @@ public class ProfessorScreen extends JFrame {
                             initializeComboBoxStudents();
                             rightPanel.add(comboBoxStudents);
                             comboBoxStudents.setBounds(350, 200, 300, 50);
+                            comboBoxStudents.setSelectedIndex(0);
 
                             getSelectedStudent();
                             textFieldStudentName.setText(selectedStudent.getLastName() + " " + selectedStudent.getFirstName());
@@ -1411,6 +1417,7 @@ public class ProfessorScreen extends JFrame {
                             initializeComboBoxExamDates();
                             rightPanel.add(comboBoxExamDates);
                             comboBoxExamDates.setBounds(450, 350, 200, 50);
+                            comboBoxExamDates.setSelectedIndex(0);
 
                             selectExamDate();
 
@@ -1438,6 +1445,7 @@ public class ProfessorScreen extends JFrame {
                                     initializeComboBoxExamDates();
                                     rightPanel.add(comboBoxExamDates);
                                     comboBoxExamDates.setBounds(450, 350, 200, 50);
+                                    comboBoxExamDates.setSelectedIndex(0);
 
                                     selectExamDate();
 
@@ -1465,176 +1473,6 @@ public class ProfessorScreen extends JFrame {
                         }
                     });
 
-                    buttonPreviousStudent.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                            int selectedStudentIndex = comboBoxStudents.getSelectedIndex();
-                            int newIndex = selectedStudentIndex;
-
-                            if (selectedStudentIndex > 0) newIndex--;
-
-                            rightPanel.remove(labelGradeModSucces);
-                            rightPanel.remove(labelGradeModFailure);
-                            rightPanel.remove(labelScheduleAnExamm);
-                            rightPanel.remove(labelGradeNotANumber);
-                            rightPanel.remove(comboBoxExamDates);
-                            rightPanel.remove(comboBoxStudents);
-                            rightPanel.revalidate();
-                            rightPanel.repaint();
-
-                            getSelectedCourse();
-
-                            initializeComboBoxStudents();
-                            rightPanel.add(comboBoxStudents);
-                            comboBoxStudents.setBounds(350, 200, 300, 50);
-
-                            comboBoxStudents.setSelectedIndex(newIndex);
-                            getSelectedStudent();
-                            textFieldStudentName.setText(selectedStudent.getLastName() + " " + selectedStudent.getFirstName());
-
-                            initializeComboBoxExamDates();
-                            rightPanel.add(comboBoxExamDates);
-                            comboBoxExamDates.setBounds(450, 350, 200, 50);
-
-                            selectExamDate();
-
-                            String studentGrade = services.getStudentGrade(selectedStudent.getId(), selectedCourse.getId());
-
-                            if (Objects.isNull(studentGrade)) textFieldGrade.setText("");
-                            else textFieldGrade.setText(studentGrade);
-
-
-                            comboBoxStudents.addActionListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-
-                                    rightPanel.remove(labelGradeModSucces);
-                                    rightPanel.remove(labelGradeModFailure);
-                                    rightPanel.remove(labelScheduleAnExamm);
-                                    rightPanel.remove(labelGradeNotANumber);
-                                    rightPanel.remove(comboBoxExamDates);
-                                    rightPanel.revalidate();
-                                    rightPanel.repaint();
-
-                                    getSelectedStudent();
-                                    textFieldStudentName.setText(selectedStudent.getLastName() + " " + selectedStudent.getFirstName());
-
-                                    initializeComboBoxExamDates();
-                                    rightPanel.add(comboBoxExamDates);
-                                    comboBoxExamDates.setBounds(450, 350, 200, 50);
-
-                                    selectExamDate();
-
-                                    String studentGrade = services.getStudentGrade(selectedStudent.getId(), selectedCourse.getId());
-
-                                    if (Objects.isNull(studentGrade)) textFieldGrade.setText("");
-                                    else textFieldGrade.setText(studentGrade);
-
-                                    comboBoxExamDates.addActionListener(new ActionListener() {
-                                        @Override
-                                        public void actionPerformed(ActionEvent e) {
-
-                                            rightPanel.remove(labelGradeModSucces);
-                                            rightPanel.remove(labelGradeModFailure);
-                                            rightPanel.remove(labelScheduleAnExamm);
-                                            rightPanel.remove(labelGradeNotANumber);
-                                            rightPanel.revalidate();
-                                            rightPanel.repaint();
-
-                                        }
-                                    });
-
-                                }
-                            });
-                        }
-                    });
-
-                    buttonNextStudent.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-
-                            int boxSize = comboBoxStudents.getModel().getSize();
-                            int selectedStudentIndex = comboBoxStudents.getSelectedIndex();
-                            int newIndex = selectedStudentIndex;
-
-                            if (selectedStudentIndex < (boxSize - 1)) newIndex++;
-
-                            rightPanel.remove(labelGradeModSucces);
-                            rightPanel.remove(labelGradeModFailure);
-                            rightPanel.remove(labelScheduleAnExamm);
-                            rightPanel.remove(labelGradeNotANumber);
-                            rightPanel.remove(comboBoxExamDates);
-                            rightPanel.remove(comboBoxStudents);
-                            rightPanel.revalidate();
-                            rightPanel.repaint();
-
-                            getSelectedCourse();
-
-                            initializeComboBoxStudents();
-                            rightPanel.add(comboBoxStudents);
-                            comboBoxStudents.setBounds(350, 200, 300, 50);
-
-                            comboBoxStudents.setSelectedIndex(newIndex);
-                            getSelectedStudent();
-                            textFieldStudentName.setText(selectedStudent.getLastName() + " " + selectedStudent.getFirstName());
-
-                            initializeComboBoxExamDates();
-                            rightPanel.add(comboBoxExamDates);
-                            comboBoxExamDates.setBounds(450, 350, 200, 50);
-
-                            selectExamDate();
-
-                            String studentGrade = services.getStudentGrade(selectedStudent.getId(), selectedCourse.getId());
-
-                            if (Objects.isNull(studentGrade)) textFieldGrade.setText("");
-                            else textFieldGrade.setText(studentGrade);
-
-
-                            comboBoxStudents.addActionListener(new ActionListener() {
-                                @Override
-                                public void actionPerformed(ActionEvent e) {
-
-                                    rightPanel.remove(labelGradeModSucces);
-                                    rightPanel.remove(labelGradeModFailure);
-                                    rightPanel.remove(labelScheduleAnExamm);
-                                    rightPanel.remove(labelGradeNotANumber);
-                                    rightPanel.remove(comboBoxExamDates);
-                                    rightPanel.revalidate();
-                                    rightPanel.repaint();
-
-                                    getSelectedStudent();
-                                    textFieldStudentName.setText(selectedStudent.getLastName() + " " + selectedStudent.getFirstName());
-
-                                    initializeComboBoxExamDates();
-                                    rightPanel.add(comboBoxExamDates);
-                                    comboBoxExamDates.setBounds(450, 350, 200, 50);
-
-                                    selectExamDate();
-
-                                    String studentGrade = services.getStudentGrade(selectedStudent.getId(), selectedCourse.getId());
-
-                                    if (Objects.isNull(studentGrade)) textFieldGrade.setText("");
-                                    else textFieldGrade.setText(studentGrade);
-
-                                    comboBoxExamDates.addActionListener(new ActionListener() {
-                                        @Override
-                                        public void actionPerformed(ActionEvent e) {
-
-                                            rightPanel.remove(labelGradeModSucces);
-                                            rightPanel.remove(labelGradeModFailure);
-                                            rightPanel.remove(labelScheduleAnExamm);
-                                            rightPanel.remove(labelGradeNotANumber);
-                                            rightPanel.revalidate();
-                                            rightPanel.repaint();
-
-                                        }
-                                    });
-
-                                }
-                            });
-                        }
-                    });
 
                 } else {
 
@@ -1647,6 +1485,182 @@ public class ProfessorScreen extends JFrame {
                 }
             }
         });
+
+        buttonPreviousStudent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int selectedStudentIndex = comboBoxStudents.getSelectedIndex();
+                int newIndex = selectedStudentIndex;
+
+                if (selectedStudentIndex > 0) newIndex--;
+
+                rightPanel.remove(labelGradeModSucces);
+                rightPanel.remove(labelGradeModFailure);
+                rightPanel.remove(labelScheduleAnExamm);
+                rightPanel.remove(labelGradeNotANumber);
+                rightPanel.remove(comboBoxExamDates);
+                rightPanel.remove(comboBoxStudents);
+                rightPanel.revalidate();
+                rightPanel.repaint();
+
+                getSelectedCourse();
+
+                initializeComboBoxStudents();
+                rightPanel.add(comboBoxStudents);
+                comboBoxStudents.setBounds(350, 200, 300, 50);
+
+                comboBoxStudents.setSelectedIndex(newIndex);
+                getSelectedStudent();
+                textFieldStudentName.setText(selectedStudent.getLastName() + " " + selectedStudent.getFirstName());
+
+                initializeComboBoxExamDates();
+                rightPanel.add(comboBoxExamDates);
+                comboBoxExamDates.setBounds(450, 350, 200, 50);
+                comboBoxExamDates.setSelectedIndex(0);
+
+                selectExamDate();
+
+                String studentGrade = services.getStudentGrade(selectedStudent.getId(), selectedCourse.getId());
+
+                if (Objects.isNull(studentGrade)) textFieldGrade.setText("");
+                else textFieldGrade.setText(studentGrade);
+
+
+                comboBoxStudents.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        rightPanel.remove(labelGradeModSucces);
+                        rightPanel.remove(labelGradeModFailure);
+                        rightPanel.remove(labelScheduleAnExamm);
+                        rightPanel.remove(labelGradeNotANumber);
+                        rightPanel.remove(comboBoxExamDates);
+                        rightPanel.revalidate();
+                        rightPanel.repaint();
+
+                        getSelectedStudent();
+                        textFieldStudentName.setText(selectedStudent.getLastName() + " " + selectedStudent.getFirstName());
+
+                        initializeComboBoxExamDates();
+                        rightPanel.add(comboBoxExamDates);
+                        comboBoxExamDates.setBounds(450, 350, 200, 50);
+                        comboBoxExamDates.setSelectedIndex(0);
+
+                        selectExamDate();
+
+                        String studentGrade = services.getStudentGrade(selectedStudent.getId(), selectedCourse.getId());
+
+                        if (Objects.isNull(studentGrade)) textFieldGrade.setText("");
+                        else textFieldGrade.setText(studentGrade);
+
+                        comboBoxExamDates.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+
+                                rightPanel.remove(labelGradeModSucces);
+                                rightPanel.remove(labelGradeModFailure);
+                                rightPanel.remove(labelScheduleAnExamm);
+                                rightPanel.remove(labelGradeNotANumber);
+                                rightPanel.revalidate();
+                                rightPanel.repaint();
+
+                            }
+                        });
+
+                    }
+                });
+            }
+        });
+
+        buttonNextStudent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int boxSize = comboBoxStudents.getModel().getSize();
+                int selectedStudentIndex = comboBoxStudents.getSelectedIndex();
+                int newIndex = selectedStudentIndex;
+
+                if (selectedStudentIndex < (boxSize - 1)) newIndex++;
+
+                rightPanel.remove(labelGradeModSucces);
+                rightPanel.remove(labelGradeModFailure);
+                rightPanel.remove(labelScheduleAnExamm);
+                rightPanel.remove(labelGradeNotANumber);
+                rightPanel.remove(comboBoxExamDates);
+                rightPanel.remove(comboBoxStudents);
+                rightPanel.revalidate();
+                rightPanel.repaint();
+
+                getSelectedCourse();
+
+                initializeComboBoxStudents();
+                rightPanel.add(comboBoxStudents);
+                comboBoxStudents.setBounds(350, 200, 300, 50);
+
+                comboBoxStudents.setSelectedIndex(newIndex);
+                getSelectedStudent();
+                textFieldStudentName.setText(selectedStudent.getLastName() + " " + selectedStudent.getFirstName());
+
+                initializeComboBoxExamDates();
+                rightPanel.add(comboBoxExamDates);
+                comboBoxExamDates.setBounds(450, 350, 200, 50);
+                comboBoxExamDates.setSelectedIndex(0);
+
+                selectExamDate();
+
+                String studentGrade = services.getStudentGrade(selectedStudent.getId(), selectedCourse.getId());
+
+                if (Objects.isNull(studentGrade)) textFieldGrade.setText("");
+                else textFieldGrade.setText(studentGrade);
+
+
+                comboBoxStudents.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        rightPanel.remove(labelGradeModSucces);
+                        rightPanel.remove(labelGradeModFailure);
+                        rightPanel.remove(labelScheduleAnExamm);
+                        rightPanel.remove(labelGradeNotANumber);
+                        rightPanel.remove(comboBoxExamDates);
+                        rightPanel.revalidate();
+                        rightPanel.repaint();
+
+                        getSelectedStudent();
+                        textFieldStudentName.setText(selectedStudent.getLastName() + " " + selectedStudent.getFirstName());
+
+                        initializeComboBoxExamDates();
+                        rightPanel.add(comboBoxExamDates);
+                        comboBoxExamDates.setBounds(450, 350, 200, 50);
+                        comboBoxExamDates.setSelectedIndex(0);
+
+                        selectExamDate();
+
+                        String studentGrade = services.getStudentGrade(selectedStudent.getId(), selectedCourse.getId());
+
+                        if (Objects.isNull(studentGrade)) textFieldGrade.setText("");
+                        else textFieldGrade.setText(studentGrade);
+
+                        comboBoxExamDates.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+
+                                rightPanel.remove(labelGradeModSucces);
+                                rightPanel.remove(labelGradeModFailure);
+                                rightPanel.remove(labelScheduleAnExamm);
+                                rightPanel.remove(labelGradeNotANumber);
+                                rightPanel.revalidate();
+                                rightPanel.repaint();
+
+                            }
+                        });
+
+                    }
+                });
+            }
+        });
+
 
         buttonModifyGrade.addActionListener(new ActionListener() {
             @Override
@@ -1847,7 +1861,14 @@ public class ProfessorScreen extends JFrame {
                         if (selection.equals(gradeList.get(i).getCourse().getName())) {
 
                             String studentName = gradeList.get(i).getStudent().getLastName() + " " + gradeList.get(i).getStudent().getFirstName();
-                            String[] dateTime = gradeList.get(i).getDateTime().split(" ");
+                            String[] dateTime = null;
+
+                            if ((gradeList.get(i).getGrade()) == 0) {
+
+                                dateTime = new String[]{"-"};
+
+                            } else dateTime = gradeList.get(i).getDateTime().split(" ");
+
 
                             model.setValueAt(row + 1, row, 0);
                             model.setValueAt(studentName, row, 1);
@@ -1922,7 +1943,14 @@ public class ProfessorScreen extends JFrame {
                                 if (selection2.equals(gradeList.get(i).getCourse().getName())) {
 
                                     String studentName2 = gradeList.get(i).getStudent().getLastName() + " " + gradeList.get(i).getStudent().getFirstName();
-                                    String[] dateTime2 = gradeList.get(i).getDateTime().split(" ");
+                                    String[] dateTime2 = null;
+
+                                    if ((gradeList.get(i).getGrade()) == 0) {
+
+                                        dateTime2 = new String[]{"-"};
+
+                                    } else dateTime2 = gradeList.get(i).getDateTime().split(" ");
+
 
                                     model.setValueAt(row2 + 1, row2, 0);
                                     model.setValueAt(studentName2, row2, 1);
