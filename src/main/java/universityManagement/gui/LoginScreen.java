@@ -1,13 +1,11 @@
 package universityManagement.gui;
 
-import universityManagement.repository.Repository;
 import universityManagement.services.Services;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class LoginScreen extends JFrame {
