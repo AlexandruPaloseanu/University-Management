@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class LoginScreen extends JFrame {
@@ -19,7 +20,7 @@ public class LoginScreen extends JFrame {
     private JLabel labelPassword = new JLabel("Password:");
 
     private JTextField textFieldUsername = new JTextField();
-    private JTextField textFieldPassword = new JTextField();
+    private JPasswordField textFieldPassword = new JPasswordField();
 
     private JButton buttonLogin = new JButton("Log in");
 
@@ -44,7 +45,7 @@ public class LoginScreen extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 username = textFieldUsername.getText();
-                password = textFieldPassword.getText();
+                password = String.valueOf(textFieldPassword.getPassword());
 
                 userType = services.checkUserPassCombination(username, password);
 

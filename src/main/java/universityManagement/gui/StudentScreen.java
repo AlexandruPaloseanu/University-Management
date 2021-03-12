@@ -49,15 +49,16 @@ public class StudentScreen extends JFrame {
     // CHANGE PASSWORD FUNCTION
 
     private JButton buttonChangePassword = new JButton("Change password");
-    private JTextField textFieldCurrentPassword = new JTextField();
-    private JTextField textFieldNewPassword1 = new JTextField();
-    private JTextField textFieldNewPassword2 = new JTextField();
+    private JPasswordField textFieldCurrentPassword = new JPasswordField();
+    private JPasswordField textFieldNewPassword1 = new JPasswordField();
+    private JPasswordField textFieldNewPassword2 = new JPasswordField();
     private JButton buttonChangePassword2 = new JButton("Change password");
     private JLabel labelWrongCurrentPassword = new JLabel("<html><div style=\"text-align:center\">You have not introduced the<br>correct current password.</div></html>", SwingConstants.CENTER);
     private JLabel labelWrongNewPassword = new JLabel("<html><div style=\"text-align:center\">You have not introduced the same new password.<br>Please try again.</div></html>", SwingConstants.CENTER);
     private JLabel labelPasswordChangedSuccessfully = new JLabel("Password changed successfully.", SwingConstants.CENTER);
     private JLabel labelPasswordChangeError = new JLabel("<html><div style=\"text-align:center\">Something went wrong. Please try again.</div></html>", SwingConstants.CENTER);
     private JLabel labelFillNewPasswordFields = new JLabel("<html><div style=\"text-align:center\">Please introduce the new password<br>and fill all fields.</div></html>", SwingConstants.CENTER);
+    private JLabel labelSamePassword = new JLabel("<html><div style=\"text-align:center\">The new password must be different from the old one. Please introduce a different password.</div></html>", SwingConstants.CENTER);
 
     // CHANGE PASSWORD FUNCTION
 
@@ -259,6 +260,10 @@ public class StudentScreen extends JFrame {
                 textFieldNewPassword1.setBounds(450, 200+10, 150, 50);
                 textFieldNewPassword2.setBounds(450, 250+20, 150, 50);
 
+                textFieldCurrentPassword.setText("");
+                textFieldNewPassword1.setText("");
+                textFieldNewPassword2.setText("");
+
 
                 rightPanel.add(buttonChangePassword2);
                 buttonChangePassword2.setBounds(300, 350, 300, 100);
@@ -276,15 +281,18 @@ public class StudentScreen extends JFrame {
                 rightPanel.remove(labelPasswordChangedSuccessfully);
                 rightPanel.remove(labelPasswordChangeError);
                 rightPanel.remove(labelFillNewPasswordFields);
+                rightPanel.remove(labelSamePassword);
                 rightPanel.revalidate();
                 rightPanel.repaint();
 
-                String newPass1 = textFieldNewPassword1.getText();
-                String newPass2 = textFieldNewPassword2.getText();
+                String currentPass = String.valueOf(textFieldCurrentPassword.getPassword());
+                String newPass1 = String.valueOf(textFieldNewPassword1.getPassword());
+                String newPass2 = String.valueOf(textFieldNewPassword2.getPassword());
 
-                boolean currentPassword = services.checkPassword(userID, textFieldCurrentPassword.getText());
+                boolean currentPassword = services.checkPassword(userID, currentPass);
                 boolean newPasswordFields = (!newPass1.isBlank()) && (!newPass2.isBlank());
                 boolean newPasswordMatch = newPass1.equals(newPass2);
+                boolean samePassword = !(currentPass.equals(newPass1));
 
 
                 if (currentPassword) {
@@ -293,17 +301,27 @@ public class StudentScreen extends JFrame {
 
                         if (newPasswordMatch) {
 
-                            if (services.changePassword(userID, textFieldNewPassword1.getText())) {
+                            if (samePassword) {
 
-                                rightPanel.add(labelPasswordChangedSuccessfully);
-                                labelPasswordChangedSuccessfully.setBounds(300, 450, 300, 50);
-                                labelPasswordChangedSuccessfully.setForeground(Color.GREEN);
+                                if (services.changePassword(userID, newPass1)) {
+
+                                    rightPanel.add(labelPasswordChangedSuccessfully);
+                                    labelPasswordChangedSuccessfully.setBounds(300, 450, 300, 50);
+                                    labelPasswordChangedSuccessfully.setForeground(Color.GREEN);
+
+                                } else {
+
+                                    rightPanel.add(labelPasswordChangeError);
+                                    labelPasswordChangeError.setBounds(300, 450, 300, 50);
+                                    labelPasswordChangeError.setForeground(Color.RED);
+
+                                }
 
                             } else {
 
-                                rightPanel.add(labelPasswordChangeError);
-                                labelPasswordChangeError.setBounds(300, 450, 300, 50);
-                                labelPasswordChangeError.setForeground(Color.RED);
+                                rightPanel.add(labelSamePassword);
+                                labelSamePassword.setBounds(300, 450, 300, 50);
+                                labelSamePassword.setForeground(Color.RED);
 
                             }
 
